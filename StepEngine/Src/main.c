@@ -57,6 +57,13 @@ static void MX_GPIO_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+
+#define 	EN   	GPIO_PIN_3
+#define 	DIR  	GPIO_PIN_4
+#define 	STEP 	GPIO_PIN_5
+
+
+
 /* USER CODE END 0 */
 
 /**
@@ -89,16 +96,36 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
+	
+	HAL_GPIO_WritePin(GPIOF, EN, GPIO_PIN_SET);
 
-  /* USER CODE END 2 */
+	/* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-
-    /* USER CODE BEGIN 3 */
+			HAL_GPIO_WritePin(GPIOF, DIR, GPIO_PIN_SET);
+			for (int i = 0; i < 200; i++){
+				HAL_GPIO_WritePin(GPIOF, STEP, GPIO_PIN_SET);
+				HAL_Delay(1);
+				HAL_GPIO_WritePin(GPIOF, STEP, GPIO_PIN_RESET);
+				HAL_Delay(1);
+			}
+			
+			HAL_GPIO_WritePin(GPIOF, DIR, GPIO_PIN_RESET);
+			HAL_Delay(1000);
+			
+			for (int i = 0; i < 200; i++){
+				HAL_GPIO_WritePin(GPIOF, STEP, GPIO_PIN_SET);
+				HAL_Delay(1);
+				HAL_GPIO_WritePin(GPIOF, STEP, GPIO_PIN_RESET);
+				HAL_Delay(1);
+			}
+			HAL_Delay(1000);
+    
+			/* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
 }
