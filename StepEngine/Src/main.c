@@ -58,9 +58,14 @@ static void MX_GPIO_Init(void);
 /* USER CODE BEGIN 0 */
 
 
-#define 	EN   	GPIOF, GPIO_PIN_3
-#define 	DIR  	GPIOF, GPIO_PIN_4
-#define 	STEP 	GPIOF, GPIO_PIN_5
+// Engine pin
+#define 	EN   			GPIOF, GPIO_PIN_3
+#define 	DIR  			GPIOF, GPIO_PIN_4
+#define 	STEP 			GPIOF, GPIO_PIN_5
+
+// User pin
+#define 	left_but	HAL_GPIO_ReadPin(GPIOF, GPIO_PIN_7)
+#define 	right_but	HAL_GPIO_ReadPin(GPIOF, GPIO_PIN_8)
 
 void move(uint8_t x){
 	
@@ -122,8 +127,27 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+		
+		if((right_but != GPIO_PIN_SET) && (left_but == GPIO_PIN_SET)){
+			HAL_GPIO_WritePin(DIR, GPIO_PIN_SET);
+			
+			HAL_GPIO_WritePin(STEP, GPIO_PIN_SET);
+			HAL_Delay(1);
+			HAL_GPIO_WritePin(STEP, GPIO_PIN_RESET);
+			HAL_Delay(1);
+			
+		}
+		
+		else if((left_but != GPIO_PIN_SET) && (right_but == GPIO_PIN_SET)){
+			HAL_GPIO_WritePin(DIR, GPIO_PIN_RESET);
+			
+			HAL_GPIO_WritePin(STEP, GPIO_PIN_SET);
+			HAL_Delay(1);
+			HAL_GPIO_WritePin(STEP, GPIO_PIN_RESET);
+			HAL_Delay(1);
+			
+		}
     /* USER CODE END WHILE */
-
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
