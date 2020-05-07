@@ -58,9 +58,9 @@ static void MX_GPIO_Init(void);
 /* USER CODE BEGIN 0 */
 
 
-#define 	EN   	GPIO_PIN_3
-#define 	DIR  	GPIO_PIN_4
-#define 	STEP 	GPIO_PIN_5
+#define 	EN   	GPIOF, GPIO_PIN_3
+#define 	DIR  	GPIOF, GPIO_PIN_4
+#define 	STEP 	GPIOF, GPIO_PIN_5
 
 
 
@@ -97,8 +97,8 @@ int main(void)
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
 	
-	HAL_GPIO_WritePin(GPIOF, EN, GPIO_PIN_SET);
-
+	HAL_GPIO_WritePin(EN, GPIO_PIN_SET);
+	
 	/* USER CODE END 2 */
 
   /* Infinite loop */
@@ -106,21 +106,21 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-			HAL_GPIO_WritePin(GPIOF, DIR, GPIO_PIN_SET);
+			HAL_GPIO_WritePin(DIR, GPIO_PIN_SET);
 			for (int i = 0; i < 200; i++){
-				HAL_GPIO_WritePin(GPIOF, STEP, GPIO_PIN_SET);
+				HAL_GPIO_WritePin(STEP, GPIO_PIN_SET);
 				HAL_Delay(1);
-				HAL_GPIO_WritePin(GPIOF, STEP, GPIO_PIN_RESET);
+				HAL_GPIO_WritePin(STEP, GPIO_PIN_RESET);
 				HAL_Delay(1);
 			}
 			
-			HAL_GPIO_WritePin(GPIOF, DIR, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(DIR, GPIO_PIN_RESET);
 			HAL_Delay(1000);
 			
 			for (int i = 0; i < 200; i++){
-				HAL_GPIO_WritePin(GPIOF, STEP, GPIO_PIN_SET);
+				HAL_GPIO_WritePin(STEP, GPIO_PIN_SET);
 				HAL_Delay(1);
-				HAL_GPIO_WritePin(GPIOF, STEP, GPIO_PIN_RESET);
+				HAL_GPIO_WritePin(STEP, GPIO_PIN_RESET);
 				HAL_Delay(1);
 			}
 			HAL_Delay(1000);
