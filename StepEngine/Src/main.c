@@ -62,7 +62,24 @@ static void MX_GPIO_Init(void);
 #define 	DIR  	GPIOF, GPIO_PIN_4
 #define 	STEP 	GPIOF, GPIO_PIN_5
 
-
+void move(uint8_t x){
+	
+	if (x == 1){
+		HAL_GPIO_WritePin(DIR, GPIO_PIN_SET);
+		HAL_GPIO_WritePin(STEP, GPIO_PIN_SET);
+		HAL_Delay(1);
+		HAL_GPIO_WritePin(STEP, GPIO_PIN_RESET);
+		HAL_Delay(1);
+	}
+	
+	else if (x == 0){
+		HAL_GPIO_WritePin(DIR, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(STEP, GPIO_PIN_SET);
+		HAL_Delay(1);
+		HAL_GPIO_WritePin(STEP, GPIO_PIN_RESET);
+		HAL_Delay(1);
+	}
+}
 
 /* USER CODE END 0 */
 
@@ -99,33 +116,15 @@ int main(void)
 	
 	HAL_GPIO_WritePin(EN, GPIO_PIN_SET);
 	
-	/* USER CODE END 2 */
+  /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
     /* USER CODE END WHILE */
-			HAL_GPIO_WritePin(DIR, GPIO_PIN_SET);
-			for (int i = 0; i < 200; i++){
-				HAL_GPIO_WritePin(STEP, GPIO_PIN_SET);
-				HAL_Delay(1);
-				HAL_GPIO_WritePin(STEP, GPIO_PIN_RESET);
-				HAL_Delay(1);
-			}
-			
-			HAL_GPIO_WritePin(DIR, GPIO_PIN_RESET);
-			HAL_Delay(1000);
-			
-			for (int i = 0; i < 200; i++){
-				HAL_GPIO_WritePin(STEP, GPIO_PIN_SET);
-				HAL_Delay(1);
-				HAL_GPIO_WritePin(STEP, GPIO_PIN_RESET);
-				HAL_Delay(1);
-			}
-			HAL_Delay(1000);
-    
-			/* USER CODE BEGIN 3 */
+
+    /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
 }
@@ -200,6 +199,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PF7 PF8 */
+  GPIO_InitStruct.Pin = GPIO_PIN_7|GPIO_PIN_8;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
 
 }
