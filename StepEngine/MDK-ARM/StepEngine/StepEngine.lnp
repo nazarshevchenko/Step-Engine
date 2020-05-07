@@ -5,6 +5,7 @@
 "stepengine\stm32f4xx_hal_msp.o"
 "stepengine\stm32f4xx_hal_tim.o"
 "stepengine\stm32f4xx_hal_tim_ex.o"
+"stepengine\stm32f4xx_hal_uart.o"
 "stepengine\stm32f4xx_hal_rcc.o"
 "stepengine\stm32f4xx_hal_rcc_ex.o"
 "stepengine\stm32f4xx_hal_flash.o"

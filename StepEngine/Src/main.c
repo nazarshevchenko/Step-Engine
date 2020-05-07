@@ -20,7 +20,6 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -58,8 +57,8 @@ static void MX_USART1_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
-
+uint8_t data[3];
+uint16_t x;
 // Engine pin
 #define 	EN   			GPIOF, GPIO_PIN_3
 #define 	DIR  			GPIOF, GPIO_PIN_4
@@ -128,8 +127,23 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+	//HAL_UART_Receive_IT(&huart1,(uint8_t*) data,8);
+	HAL_UART_Receive_IT(&huart1,(uint8_t*) data, 3);
   while (1)
   {
+		
+		if(huart1.RxXferCount==0){
+			HAL_UART_Receive_IT(&huart1,(uint8_t*) data, 3);
+	
+			x = (data[0] - '0') * 100 + (data[1] - '0') * 10 + (data[2] - '0');
+			//x = 200;
+			//HAL_UART_Transmit(&huart1, &data[0], 1, 0xFF);
+			//HAL_UART_Transmit(&huart1, &data[1], 1, 0xFF);
+			//HAL_UART_Transmit(&huart1, &data[2], 1, 0xFF);
+			for (int i = 0; i < x; i++){
+				move(1);
+			}
+		}
 		
 		if((right_but != GPIO_PIN_SET) && (left_but == GPIO_PIN_SET)){
 			HAL_GPIO_WritePin(DIR, GPIO_PIN_SET);
@@ -266,7 +280,7 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pins : PF7 PF8 */
   GPIO_InitStruct.Pin = GPIO_PIN_7|GPIO_PIN_8;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOF, &GPIO_InitStruct);
 
 }
