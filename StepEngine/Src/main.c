@@ -57,8 +57,10 @@ static void MX_USART1_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-uint8_t data[3];
+uint8_t data[4];
 uint16_t x;
+//uint8_t some[5];
+//uint16_t step = 0;
 // Engine pin
 #define 	EN   			GPIOF, GPIO_PIN_3
 #define 	DIR  			GPIOF, GPIO_PIN_4
@@ -128,40 +130,51 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 	//HAL_UART_Receive_IT(&huart1,(uint8_t*) data,8);
-	HAL_UART_Receive_IT(&huart1,(uint8_t*) data, 3);
+	HAL_UART_Receive_IT(&huart1,(uint8_t*) data, 4);
   while (1)
   {
 		
 		if(huart1.RxXferCount==0){
-			HAL_UART_Receive_IT(&huart1,(uint8_t*) data, 3);
+			HAL_UART_Receive_IT(&huart1,(uint8_t*) data, 4);
 	
-			x = (data[0] - '0') * 100 + (data[1] - '0') * 10 + (data[2] - '0');
+			x = (data[1] - '0') * 100 + (data[2] - '0') * 10 + (data[3] - '0');
 			//x = 200;
 			//HAL_UART_Transmit(&huart1, &data[0], 1, 0xFF);
 			//HAL_UART_Transmit(&huart1, &data[1], 1, 0xFF);
 			//HAL_UART_Transmit(&huart1, &data[2], 1, 0xFF);
 			for (int i = 0; i < x; i++){
-				move(1);
+				move(data[0] - '0');
 			}
 		}
 		
 		if((right_but != GPIO_PIN_SET) && (left_but == GPIO_PIN_SET)){
 			HAL_GPIO_WritePin(DIR, GPIO_PIN_SET);
-			
 			HAL_GPIO_WritePin(STEP, GPIO_PIN_SET);
 			HAL_Delay(1);
 			HAL_GPIO_WritePin(STEP, GPIO_PIN_RESET);
 			HAL_Delay(1);
-			
+			//step--;
+			//some[0] = (step / 10000);
+			//some[1] = (step / 1000);
+			//some[2] = (step / 100);
+			//some[3] = (step / 10);
+			//some[4] = (step / 1);
+			//HAL_UART_Transmit(&huart1, some, 5, 0xFF);
 		}
 		
 		else if((left_but != GPIO_PIN_SET) && (right_but == GPIO_PIN_SET)){
 			HAL_GPIO_WritePin(DIR, GPIO_PIN_RESET);
-			
 			HAL_GPIO_WritePin(STEP, GPIO_PIN_SET);
 			HAL_Delay(1);
 			HAL_GPIO_WritePin(STEP, GPIO_PIN_RESET);
 			HAL_Delay(1);
+			//step++;
+			//some[0] = (step / 10000);
+			//some[1] = (step / 1000);
+			//some[2] = (step / 100);
+			//some[3] = (step / 10);
+			//some[4] = (step / 1);
+			//HAL_UART_Transmit(&huart1, some, 5, 0xFF);
 			
 		}
     /* USER CODE END WHILE */
